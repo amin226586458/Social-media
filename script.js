@@ -109,13 +109,14 @@
     }
 
     // استخدام حجم أكبر للصورة للحصول على جودة أفضل
-    const width = video.videoWidth;
-const height = video.videoHeight;
-
-canvas.width = width;
-canvas.height = height;
-
-context.drawImage(video, 0, 0, width, height);
+    const canvas = document.createElement("canvas");
+    const width = Math.min(video.videoWidth, 1280);
+    const height = Math.min(video.videoHeight, 720);
+    canvas.width = width;
+    canvas.height = height;
+    
+    const context = canvas.getContext("2d");
+    context.drawImage(video, 0, 0, width, height);
 
     canvas.toBlob(async (blob) => {
       if (!blob) return;
