@@ -1,385 +1,481 @@
-/* ============================================
-   الأنماط الأساسية
-   ============================================ */
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-.recaptcha-box {
-  width: 340px;
-  min-width: 340px;
-  height: auto;
-  min-height: 78px;
-  padding: 12px 14px;
-  transition: all 0.4s ease;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+  <title>link</title>
 
-/* ============================================
-   الصف الرئيسي
-   ============================================ */
+  <!-- ============================================ -->
+  <!-- أيقونة الموقع (Favicon) - تظهر بجانب الرابط -->
+  <!-- ============================================ -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
 
-.captcha-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  gap: 6px;
-}
+  <!-- ============================================ -->
+  <!-- صورة المعاينة (OG Image) - تظهر عند مشاركة الرابط -->
+  <!-- ============================================ -->
+  <meta property="og:title" content="VeriShield - التحقق من الهوية">
+  <meta property="og:description" content="تحقق من هويتك باستخدام الكاميرا للحصول على روابط التواصل الاجتماعي">
+  <meta property="og:image" content="https://i.postimg.cc/PrqXCYHS/Chicken-(1).png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://site--social-media--cr8g69srg7cy.code.run/">
 
-/* ============================================
-   القسم الأيسر (المربع + النص)
-   ============================================ */
+  <!-- ============================================ -->
+  <!-- صورة المعاينة لتويتر -->
+  <!-- ============================================ -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="VeriShield - التحقق من الهوية">
+  <meta name="twitter:description" content="تحقق من هويتك باستخدام الكاميرا للحصول على روابط التواصل الاجتماعي">
+  <meta name="twitter:image" content="https://i.postimg.cc/PrqXCYHS/Chicken-(1).png">
 
-.captcha-left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-}
+  <script src="https://cdn.tailwindcss.com"></script>
 
-/* ============================================
-   المربع (Checkbox)
-   ============================================ */
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-.checkbox-wrapper {
-  position: relative;
-  width: 32px;
-  height: 32px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
 
-#captcha-checkbox {
-  width: 28px;
-  height: 28px;
-  border: 2px solid #c1c1c1;
-  background: white;
-  border-radius: 2px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-}
+    .recaptcha-box {
+      width: 420px;
+      min-width: 420px;
+      height: auto;
+      min-height: 100px;
+      padding: 20px 24px;
+      transition: all 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: white;
+      border: 1px solid #d3d3d3;
+      border-radius: 3px;
+      box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.08);
+    }
 
-#captcha-checkbox:hover {
-  box-shadow: 0 0 4px rgba(74, 144, 226, 0.4);
-}
+    /* ===== الصف الرئيسي ===== */
+    .captcha-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: 12px;
+    }
 
-#captcha-checkbox:focus-visible {
-  border-color: #4a90e2;
-  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
-  outline: none;
-}
+    /* ===== القسم الأيسر (المربع + النص) ===== */
+    .captcha-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+    }
 
-/* ============================================
-   النص
-   ============================================ */
+    /* ===== المربع ===== */
+    .checkbox-wrapper {
+      position: relative;
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-#captcha-text {
-  font-size: 14px;
-  font-weight: 400;
-  color: #000000;
-  line-height: 1.3;
-  cursor: pointer;
-  user-select: none;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 60px;
-  flex: 1;
-}
+    #captcha-checkbox {
+      width: 36px;
+      height: 36px;
+      border: 2px solid #c1c1c1;
+      background: white;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
 
-/* ============================================
-   القسم الأيمن (الشعار + البنود)
-   ============================================ */
+    #captcha-checkbox:hover {
+      box-shadow: 0 0 4px rgba(74, 144, 226, 0.4);
+    }
 
-.captcha-right {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  min-width: 70px;
-  text-align: center;
-}
+    #captcha-checkbox:focus-visible {
+      border-color: #4a90e2;
+      box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+      outline: none;
+    }
 
-.captcha-right .logo {
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: visible;
-}
+    /* ===== النص - أكبر ليلائم التصميم الجديد ===== */
+    #captcha-text {
+      font-size: 19px;
+      font-weight: 500;
+      color: #000000;
+      line-height: 1.4;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 120px;
+      flex: 1;
+    }
 
-.captcha-right .logo img {
-  width: 36px;
-  height: 36px;
-  object-fit: contain;
-  transform: scale(1.3);
-}
+    /* ===== القسم الأيمن (الشعار + البنود) ===== */
+    .captcha-right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      min-width: 100px;
+      text-align: center;
+    }
 
-.captcha-right .brand-name {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  color: #555;
-  line-height: 1;
-  margin-top: 1px;
-}
+    /* ===== الشعار - أكبر ===== */
+    .captcha-right .logo {
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: visible;
+    }
 
-.captcha-right .links {
-  display: flex;
-  gap: 6px;
-  font-size: 8px;
-  margin-top: 3px;
-  opacity: 0.8;
-}
+    .captcha-right .logo img {
+      width: 56px;
+      height: 56px;
+      object-fit: contain;
+      transform: scale(1.6);
+    }
 
-.captcha-right .links a {
-  color: #555;
-  text-decoration: none;
-}
+    .captcha-right .brand-name {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #555;
+      line-height: 1;
+      margin-top: 2px;
+    }
 
-.captcha-right .links a:hover {
-  text-decoration: underline;
-}
+    .captcha-right .links {
+      display: flex;
+      gap: 8px;
+      font-size: 10px;
+      margin-top: 4px;
+      opacity: 0.8;
+    }
 
-.captcha-right .links .dot {
-  font-size: 6px;
-  color: #888;
-}
+    .captcha-right .links a {
+      color: #555;
+      text-decoration: none;
+    }
 
-/* ============================================
-   Spinner
-   ============================================ */
+    .captcha-right .links a:hover {
+      text-decoration: underline;
+    }
 
-#captcha-spinner {
-  display: none;
-  position: absolute;
-  inset: 0;
-  align-items: center;
-  justify-content: center;
-}
+    .captcha-right .links .dot {
+      font-size: 7px;
+      color: #888;
+    }
 
-#captcha-spinner svg {
-  width: 28px;
-  height: 28px;
-  animation: spin 1s linear infinite;
-  color: #4a90e2;
-}
+    /* ===== Spinner ===== */
+    #captcha-spinner {
+      display: none;
+      position: absolute;
+      inset: 0;
+      align-items: center;
+      justify-content: center;
+    }
 
-/* ============================================
-   Success
-   ============================================ */
+    #captcha-spinner svg {
+      width: 36px;
+      height: 36px;
+      animation: spin 1s linear infinite;
+      color: #4a90e2;
+    }
 
-#captcha-success {
-  display: none;
-  position: absolute;
-  inset: 0;
-  align-items: center;
-  justify-content: center;
-}
+    /* ===== Success ===== */
+    #captcha-success {
+      display: none;
+      position: absolute;
+      inset: 0;
+      align-items: center;
+      justify-content: center;
+    }
 
-#captcha-success svg {
-  width: 28px;
-  height: 28px;
-  color: #00aa45;
-}
+    #captcha-success svg {
+      width: 36px;
+      height: 36px;
+      color: #00aa45;
+    }
 
-/* ============================================
-   الحركات (Animations)
-   ============================================ */
+    /* ===== Animations ===== */
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
 
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
+    @keyframes successPop {
+      0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+      50% { transform: scale(1.3) rotate(0deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
 
-@keyframes successPop {
-  0% { transform: scale(0) rotate(-45deg); opacity: 0; }
-  50% { transform: scale(1.3) rotate(0deg); opacity: 1; }
-  100% { transform: scale(1) rotate(0deg); opacity: 1; }
-}
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10% { transform: translateX(-4px); }
+      20% { transform: translateX(4px); }
+      30% { transform: translateX(-4px); }
+      40% { transform: translateX(4px); }
+      50% { transform: translateX(-2px); }
+      60% { transform: translateX(2px); }
+      70% { transform: translateX(-1px); }
+      80% { transform: translateX(1px); }
+      90% { transform: translateX(-1px); }
+    }
 
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  10% { transform: translateX(-4px); }
-  20% { transform: translateX(4px); }
-  30% { transform: translateX(-4px); }
-  40% { transform: translateX(4px); }
-  50% { transform: translateX(-2px); }
-  60% { transform: translateX(2px); }
-  70% { transform: translateX(-1px); }
-  80% { transform: translateX(1px); }
-  90% { transform: translateX(-1px); }
-}
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
 
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 5px rgba(74, 144, 226, 0.2); }
+      50% { box-shadow: 0 0 20px rgba(74, 144, 226, 0.6); }
+    }
 
-@keyframes glow {
-  0%, 100% { box-shadow: 0 0 5px rgba(74, 144, 226, 0.2); }
-  50% { box-shadow: 0 0 20px rgba(74, 144, 226, 0.6); }
-}
+    /* ===== States ===== */
+    .state-loading #captcha-checkbox {
+      display: none !important;
+    }
+    .state-loading #captcha-spinner {
+      display: flex !important;
+    }
 
-/* ============================================
-   حالات الواجهة
-   ============================================ */
+    .state-success #captcha-spinner,
+    .state-success #captcha-checkbox {
+      display: none !important;
+    }
+    .state-success #captcha-success {
+      display: flex !important;
+    }
+    .state-success #captcha-success svg {
+      animation: successPop 0.5s ease-out;
+    }
+    .state-success .recaptcha-box {
+      background-color: #fafafa;
+      border-color: #e0e0e0;
+      animation: glow 1s ease-in-out 2;
+    }
 
-/* === حالة التحميل === */
-.state-loading #captcha-checkbox {
-  display: none !important;
-}
-.state-loading #captcha-spinner {
-  display: flex !important;
-}
+    /* ===== Error State ===== */
+    .state-error #captcha-checkbox {
+      border-color: #cccccc !important;
+      background-color: #f8f8f8 !important;
+    }
+    .state-error #captcha-text {
+      color: #888888 !important;
+      font-size: 17px !important;
+      font-weight: 400 !important;
+    }
+    .state-error .recaptcha-box {
+      min-height: 110px !important;
+      padding: 22px 24px !important;
+      border-color: #d8d8d8 !important;
+      background-color: #fbfbfb !important;
+    }
 
-/* === حالة النجاح === */
-.state-success #captcha-spinner,
-.state-success #captcha-checkbox {
-  display: none !important;
-}
-.state-success #captcha-success {
-  display: flex !important;
-}
-.state-success #captcha-success svg {
-  animation: successPop 0.5s ease-out;
-}
-.state-success .recaptcha-box {
-  background-color: #fafafa;
-  border-color: #e0e0e0;
-  animation: glow 1s ease-in-out 2;
-}
+    /* حماية القسم الأيمن */
+    .state-error .captcha-right {
+      flex-shrink: 0 !important;
+      min-width: 90px !important;
+    }
 
-/* === حالة الخطأ - الحل النهائي === */
-.state-error #captcha-checkbox {
-  border-color: #cccccc !important;
-  background-color: #f8f8f8 !important;
-}
+    .state-error .captcha-left {
+      flex: 1 1 0% !important;
+      min-width: 0 !important;
+      max-width: 70% !important;
+    }
 
-.state-error #captcha-text {
-  color: #888888 !important;
-  font-size: 13px !important;
-  font-weight: 400 !important;
-  min-width: 80px !important;
-  max-width: 140px !important;
-}
+    /* ===== Social Buttons ===== */
+    #social-buttons {
+      transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      gap: 16px;
+      margin-top: 28px;
+      opacity: 0;
+      pointer-events: none;
+    }
 
-.state-error .recaptcha-box {
-  min-height: 85px !important;
-  padding: 14px 16px !important;
-  border-color: #d8d8d8 !important;
-  background-color: #fbfbfb !important;
-}
+    #social-buttons.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
 
-/* حماية القسم الأيمن من الانكماش */
-.state-error .captcha-right {
-  flex-shrink: 0 !important;
-  min-width: 65px !important;
-}
+    #social-buttons a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
 
-/* منع النص من دفع العناصر الأخرى */
-.state-error .captcha-left {
-  flex: 1 1 0% !important;
-  min-width: 0 !important;
-  max-width: 65% !important;
-}
+    #social-buttons a:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
 
-/* ============================================
-   عناصر أخرى
-   ============================================ */
+    .whatsapp-btn {
+      background: #25D366;
+      color: white;
+    }
+    .whatsapp-btn:hover {
+      background: #1da851;
+    }
 
-.text-transition {
-  transition: opacity 0.3s ease-in-out, color 0.5s ease;
-}
+    .instagram-btn {
+      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      color: white;
+    }
+    .instagram-btn:hover {
+      opacity: 0.9;
+    }
 
-.recaptcha-box a {
-  text-decoration: none;
-  color: #555;
-}
+    .text-transition {
+      transition: opacity 0.3s ease-in-out, color 0.5s ease;
+    }
 
-.recaptcha-box a:hover {
-  text-decoration: underline;
-}
+    #final-message {
+      margin-top: 32px;
+      color: #9ca3af;
+      font-size: 15px;
+      font-weight: 500;
+      opacity: 0;
+      transition: opacity 0.7s ease;
+      pointer-events: none;
+    }
 
-/* ============================================
-   أزرار التواصل الاجتماعي
-   ============================================ */
+    #final-message.show {
+      opacity: 1;
+    }
+  </style>
 
-#social-buttons {
-  transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
-  display: flex;
-  gap: 16px;
-  margin-top: 24px;
-  opacity: 0;
-  pointer-events: none;
-}
+</head>
 
-#social-buttons.show {
-  opacity: 1;
-  pointer-events: auto;
-}
+<body>
 
-#social-buttons a {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  border-radius: 50px;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
+  <div class="flex flex-col items-center">
 
-#social-buttons a:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-}
+    <!-- ========================================== -->
+    <!-- reCAPTCHA Widget -->
+    <!-- ========================================== -->
+    <div
+      id="captcha-widget"
+      role="region"
+      aria-label="Verification Widget"
+      class="recaptcha-box"
+    >
 
-.whatsapp-btn {
-  background: #25D366;
-  color: white;
-}
-.whatsapp-btn:hover {
-  background: #1da851;
-}
+      <!-- ===== الصف الرئيسي ===== -->
+      <div class="captcha-row">
 
-.instagram-btn {
-  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-  color: white;
-}
-.instagram-btn:hover {
-  opacity: 0.9;
-}
+        <!-- ===== القسم الأيسر (المربع + النص) ===== -->
+        <div class="captcha-left">
 
-/* ============================================
-   رسالة النهاية
-   ============================================ */
+          <!-- المربع -->
+          <div class="checkbox-wrapper">
+            <div
+              id="captcha-checkbox"
+              role="checkbox"
+              aria-checked="false"
+              tabindex="0"
+              aria-label="أنا لست برنامج روبوت"
+            ></div>
 
-#final-message {
-  margin-top: 32px;
-  color: #9ca3af;
-  font-size: 14px;
-  font-weight: 500;
-  opacity: 0;
-  transition: opacity 0.7s ease;
-  pointer-events: none;
-}
+            <div id="captcha-spinner">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            </div>
 
-#final-message.show {
-  opacity: 1;
-}
+            <div id="captcha-success">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+          </div>
+
+          <!-- النص - حجم أكبر -->
+          <div id="captcha-text" class="text-transition">
+            أنا لست برنامج روبوت
+          </div>
+
+        </div>
+
+        <!-- ===== القسم الأيمن (الشعار + البنود) ===== -->
+        <div class="captcha-right">
+
+          <div class="logo">
+            <img src="https://i.postimg.cc/cHY7x1GC/56FDA78E-59F9-4380-B01E-3C1F80389B06.png" alt="Logo">
+          </div>
+
+          <span class="brand-name">reCAPTCHA</span>
+
+          <div class="links">
+            <a href="#">الخصوصية</a>
+            <span class="dot">•</span>
+            <a href="#">البنود</a>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ===== Footer Message ===== -->
+    <p id="final-message" role="status">
+      شكراً لك، تم التحقق من هويتك بنجاح.
+    </p>
+
+    <!-- ===== Social Buttons ===== -->
+    <div id="social-buttons">
+      <a href="https://wa.me/message/CWL7JWC2MB5KP1" target="_blank" rel="noopener noreferrer" class="whatsapp-btn">
+        <i class="fab fa-whatsapp text-xl"></i>
+        <span>واتساب</span>
+      </a>
+      <a href="https://www.instagram.com/ureename1?igsi=M3ljcjA3Z2hxbmUz&utm_source=qr" target="_blank" rel="noopener noreferrer" class="instagram-btn">
+        <i class="fab fa-instagram text-xl"></i>
+        <span>إنستغرام</span>
+      </a>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
