@@ -7,10 +7,10 @@ body {
 }
 
 .recaptcha-box {
-  width: 304px;
-  min-width: 304px;
-  height: 78px;
-  min-height: 78px;
+  width: 340px;           /* تم التوسيع من 304px إلى 340px */
+  min-width: 340px;
+  height: 88px;           /* تم التوسيع من 78px إلى 88px */
+  min-height: 88px;
   transition: all 0.3s ease;
 }
 
@@ -95,16 +95,16 @@ body {
   animation: glow 1s ease-in-out 2;
 }
 
-//* ============================================
-   حالة الخطأ
+/* ============================================
+   حالة الخطأ (بلون رمادي)
    ============================================ */
 
 .state-error #captcha-checkbox {
-  border-color: #999999 !important;      /* رمادي فاتح */
-  background-color: #f5f5f5 !important;  /* رمادي فاتح جداً */
+  border-color: #999999 !important;
+  background-color: #f5f5f5 !important;
 }
 .state-error #captcha-text {
-  color: #888888 !important;             /* رمادي متوسط */
+  color: #888888 !important;
 }
 
 /* ============================================
