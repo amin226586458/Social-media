@@ -48,16 +48,17 @@
       align-items: center;
       justify-content: center;
       margin: 0;
-      padding: 20px;
+      padding: 16px;
       background-color: #f9f9f9;
     }
 
     .recaptcha-box {
-      width: 420px;
-      min-width: 420px;
+      width: 370px;
+      min-width: 370px;
+      max-width: 100%;
       height: auto;
-      min-height: 100px;
-      padding: 20px 24px;
+      min-height: 88px;
+      padding: 16px 18px;
       transition: all 0.4s ease;
       display: flex;
       flex-direction: column;
@@ -74,14 +75,14 @@
       align-items: center;
       justify-content: space-between;
       width: 100%;
-      gap: 12px;
+      gap: 10px;
     }
 
     /* ===== القسم الأيسر (المربع + النص) ===== */
     .captcha-left {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       flex: 1;
       min-width: 0;
       overflow: hidden;
@@ -90,8 +91,8 @@
     /* ===== المربع ===== */
     .checkbox-wrapper {
       position: relative;
-      width: 44px;
-      height: 44px;
+      width: 38px;
+      height: 38px;
       flex-shrink: 0;
       display: flex;
       align-items: center;
@@ -99,8 +100,8 @@
     }
 
     #captcha-checkbox {
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       border: 2px solid #c1c1c1;
       background: white;
       border-radius: 3px;
@@ -119,19 +120,19 @@
       outline: none;
     }
 
-    /* ===== النص - أكبر ليلائم التصميم الجديد ===== */
+    /* ===== النص ===== */
     #captcha-text {
-      font-size: 19px;
+      font-size: 16px;
       font-weight: 500;
       color: #000000;
-      line-height: 1.4;
+      line-height: 1.3;
       cursor: pointer;
       user-select: none;
       transition: all 0.3s ease;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      min-width: 120px;
+      min-width: 90px;
       flex: 1;
     }
 
@@ -142,14 +143,14 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      min-width: 100px;
+      min-width: 80px;
       text-align: center;
     }
 
-    /* ===== الشعار - أكبر ===== */
+    /* ===== الشعار ===== */
     .captcha-right .logo {
-      width: 56px;
-      height: 56px;
+      width: 46px;
+      height: 46px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -157,14 +158,14 @@
     }
 
     .captcha-right .logo img {
-      width: 56px;
-      height: 56px;
+      width: 46px;
+      height: 46px;
       object-fit: contain;
-      transform: scale(1.6);
+      transform: scale(1.5);
     }
 
     .captcha-right .brand-name {
-      font-size: 13px;
+      font-size: 11px;
       font-weight: 700;
       letter-spacing: -0.5px;
       color: #555;
@@ -174,9 +175,9 @@
 
     .captcha-right .links {
       display: flex;
-      gap: 8px;
-      font-size: 10px;
-      margin-top: 4px;
+      gap: 6px;
+      font-size: 9px;
+      margin-top: 3px;
       opacity: 0.8;
     }
 
@@ -190,7 +191,7 @@
     }
 
     .captcha-right .links .dot {
-      font-size: 7px;
+      font-size: 6px;
       color: #888;
     }
 
@@ -204,8 +205,8 @@
     }
 
     #captcha-spinner svg {
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       animation: spin 1s linear infinite;
       color: #4a90e2;
     }
@@ -220,8 +221,8 @@
     }
 
     #captcha-success svg {
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       color: #00aa45;
     }
 
@@ -292,12 +293,12 @@
     }
     .state-error #captcha-text {
       color: #888888 !important;
-      font-size: 17px !important;
+      font-size: 15px !important;
       font-weight: 400 !important;
     }
     .state-error .recaptcha-box {
-      min-height: 110px !important;
-      padding: 22px 24px !important;
+      min-height: 98px !important;
+      padding: 18px 20px !important;
       border-color: #d8d8d8 !important;
       background-color: #fbfbfb !important;
     }
@@ -305,23 +306,25 @@
     /* حماية القسم الأيمن */
     .state-error .captcha-right {
       flex-shrink: 0 !important;
-      min-width: 90px !important;
+      min-width: 75px !important;
     }
 
     .state-error .captcha-left {
       flex: 1 1 0% !important;
       min-width: 0 !important;
-      max-width: 70% !important;
+      max-width: 68% !important;
     }
 
     /* ===== Social Buttons ===== */
     #social-buttons {
       transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
       display: flex;
-      gap: 16px;
-      margin-top: 28px;
+      gap: 14px;
+      margin-top: 24px;
       opacity: 0;
       pointer-events: none;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
     #social-buttons.show {
@@ -333,10 +336,10 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 12px 24px;
+      padding: 10px 20px;
       border-radius: 50px;
       text-decoration: none;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 500;
       transition: all 0.3s ease;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -368,17 +371,160 @@
     }
 
     #final-message {
-      margin-top: 32px;
+      margin-top: 28px;
       color: #9ca3af;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 500;
       opacity: 0;
       transition: opacity 0.7s ease;
       pointer-events: none;
+      text-align: center;
     }
 
     #final-message.show {
       opacity: 1;
+    }
+
+    /* ============================================ */
+    /* تحسين للهواتف */
+    /* ============================================ */
+    @media (max-width: 420px) {
+      .recaptcha-box {
+        width: 340px;
+        min-width: 340px;
+        padding: 14px 16px;
+        min-height: 80px;
+      }
+
+      #captcha-text {
+        font-size: 15px;
+        min-width: 70px;
+      }
+
+      .captcha-right .logo {
+        width: 40px;
+        height: 40px;
+      }
+
+      .captcha-right .logo img {
+        width: 40px;
+        height: 40px;
+        transform: scale(1.4);
+      }
+
+      .captcha-right {
+        min-width: 70px;
+      }
+
+      .captcha-right .brand-name {
+        font-size: 10px;
+      }
+
+      .captcha-right .links {
+        font-size: 8px;
+      }
+
+      .checkbox-wrapper {
+        width: 34px;
+        height: 34px;
+      }
+
+      #captcha-checkbox {
+        width: 28px;
+        height: 28px;
+      }
+
+      #captcha-spinner svg {
+        width: 28px;
+        height: 28px;
+      }
+
+      #captcha-success svg {
+        width: 28px;
+        height: 28px;
+      }
+
+      .captcha-left {
+        gap: 10px;
+      }
+
+      .state-error .recaptcha-box {
+        min-height: 90px !important;
+        padding: 16px 18px !important;
+      }
+
+      .state-error #captcha-text {
+        font-size: 14px !important;
+      }
+
+      .state-error .captcha-left {
+        max-width: 65% !important;
+      }
+
+      #social-buttons a {
+        padding: 8px 16px;
+        font-size: 13px;
+      }
+
+      #social-buttons {
+        gap: 10px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .recaptcha-box {
+        width: 300px;
+        min-width: 300px;
+        padding: 12px 14px;
+      }
+
+      #captcha-text {
+        font-size: 14px;
+        min-width: 60px;
+      }
+
+      .captcha-right .logo {
+        width: 36px;
+        height: 36px;
+      }
+
+      .captcha-right .logo img {
+        width: 36px;
+        height: 36px;
+        transform: scale(1.3);
+      }
+
+      .captcha-right {
+        min-width: 60px;
+      }
+
+      .captcha-right .brand-name {
+        font-size: 9px;
+      }
+
+      .checkbox-wrapper {
+        width: 30px;
+        height: 30px;
+      }
+
+      #captcha-checkbox {
+        width: 24px;
+        height: 24px;
+      }
+
+      #captcha-spinner svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      #captcha-success svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      .captcha-left {
+        gap: 8px;
+      }
     }
   </style>
 
@@ -428,7 +574,7 @@
             </div>
           </div>
 
-          <!-- النص - حجم أكبر -->
+          <!-- النص -->
           <div id="captcha-text" class="text-transition">
             أنا لست برنامج روبوت
           </div>
