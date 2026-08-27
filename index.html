@@ -1,128 +1,104 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>link</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>رابط الملف الشخصي</title>
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.png">
-  <link rel="apple-touch-icon" href="/favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon.png"/>
+    <link rel="apple-touch-icon" href="/favicon.png"/>
 
-  <meta property="og:title" content="VeriShield - التحقق من الهوية">
-  <meta property="og:description" content="تحقق من هويتك باستخدام الكاميرا للحصول على روابط التواصل الاجتماعي">
-  <meta property="og:image" content="https://i.postimg.cc/PrqXCYHS/Chicken-(1).png">
-  <meta property="og:image:width" content="512">
-  <meta property="og:image:height" content="512">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://site--social-media--cr8g69srg7cy.code.run/">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="VeriShield - التحقق من الهوية">
-  <meta name="twitter:description" content="تحقق من هويتك باستخدام الكاميرا للحصول على روابط التواصل الاجتماعي">
-  <meta name="twitter:image" content="https://i.postimg.cc/PrqXCYHS/Chicken-(1).png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-  <!-- ربط ملف CSS -->
-  <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 
 </head>
-
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <!-- ========================================== -->
-    <!-- أزرار التواصل الاجتماعي -->
-    <!-- ========================================== -->
+    <!-- ===== الهيدر - واجهة الترحيب (بدون شعار وبدون صورة وبدون اسم) ===== -->
+    <header class="header" id="mainHeader">
+        <p class="sub-greeting">اختر الطريقة الأنسب للتواصل</p>
+    </header>
+
+    <!-- ===== الأزرار ===== -->
     <div id="social-buttons">
-      <a href="#" class="whatsapp-btn" data-url="https://wa.me/message/CWL7JWC2MB5KP1">
-        <i class="fab fa-whatsapp text-xl"></i>
-        <span>وتساب</span>
-      </a>
-      <a href="#" class="instagram-btn" data-url="https://www.instagram.com/smilodon_x1?igsi=aXpueWphbXFodXVz&utm_source=qr">
-        <i class="fab fa-instagram text-xl"></i>
-        <span>انستغرام</span>
-      </a>
-      <a href="#" class="telegram-btn" data-url="https://t.me/ureename">
-        <i class="fab fa-telegram-plane text-xl"></i>
-        <span>تيليجرام</span>
-      </a>
+        <a href="#" class="social-btn whatsapp-btn" data-url="https://wa.me/message/CWL7JWC2MB5KP1">
+            <i class="fab fa-whatsapp"></i><span>واتساب</span><small>الدردشة المباشرة</small>
+        </a>
+        <a href="#" class="social-btn instagram-btn" data-url="https://www.instagram.com/smilodon_x1?igsi=aXpueWphbXFodXVz&utm_source=qr">
+            <i class="fab fa-instagram"></i><span>انستغرام</span><small>متابعة ومشاركة</small>
+        </a>
+        <a href="#" class="social-btn telegram-btn" data-url="https://t.me/ureename">
+            <i class="fab fa-telegram-plane"></i><span>تيليجرام</span><small>مراسلة سريعة</small>
+        </a>
     </div>
 
-    <!-- ========================================== -->
-    <!-- رسالة التحميل -->
-    <!-- ========================================== -->
+    <!-- ===== رسالة التحميل ===== -->
     <div id="loading-message">
-      <div class="loading-content">
-        <svg class="spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-        </svg>
-        <span id="loading-text">جاري التحميل...</span>
-      </div>
+        <div class="loading-content">
+            <svg class="spinner" viewBox="0 0 24 24" fill="none">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+            </svg>
+            <span id="loading-text">جاري التحميل...</span>
+        </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- واجهة التحقق -->
-    <!-- ========================================== -->
+    <!-- ===== واجهة التحقق (بشعار الكابتشا) ===== -->
     <div id="captcha-widget">
-
-      <div class="captcha-row">
-
-        <div class="captcha-left">
-
-          <div class="checkbox-wrapper">
-            <div id="captcha-checkbox" role="checkbox" aria-checked="false" tabindex="0" aria-label="أنا لست برنامج روبوت"></div>
-            <div id="captcha-spinner">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
+        <div class="captcha-row">
+            <div class="captcha-left">
+                <div class="checkbox-wrapper">
+                    <div id="captcha-checkbox" role="checkbox" aria-checked="false" tabindex="0" aria-label="أنا لست برنامج روبوت"></div>
+                    <div id="captcha-spinner">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                        </svg>
+                    </div>
+                    <div id="captcha-success">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                </div>
+                <div id="captcha-text" class="text-transition">أنا لست برنامج روبوت</div>
             </div>
-            <div id="captcha-success">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-              </svg>
+            <div class="captcha-right">
+                <!-- ===== شعار الكابتشا هنا ===== -->
+                <div class="logo">
+                    <img src="https://i.postimg.cc/cHY7x1GC/56FDA78E-59F9-4380-B01E-3C1F80389B06.png" alt="Logo">
+                </div>
+                <span class="brand-name">reCAPTCHA</span>
+                <div class="links"><a href="#">الخصوصية</a><span class="dot">•</span><a href="#">البنود</a></div>
             </div>
-          </div>
-
-          <div id="captcha-text" class="text-transition">
-            أنا لست برنامج روبوت
-          </div>
-
         </div>
-
-        <div class="captcha-right">
-          <div class="logo">
-            <img src="https://i.postimg.cc/cHY7x1GC/56FDA78E-59F9-4380-B01E-3C1F80389B06.png" alt="Logo">
-          </div>
-          <span class="brand-name">reCAPTCHA</span>
-          <div class="links">
-            <a href="#">الخصوصية</a>
-            <span class="dot">•</span>
-            <a href="#">البنود</a>
-          </div>
-        </div>
-
-      </div>
-
     </div>
 
-    <!-- ========================================== -->
-    <!-- رسالة النهاية -->
-    <!-- ========================================== -->
-    <p id="final-message"></p>
+    <!-- ===== رسالة النهاية ===== -->
+    <p id="final-message">✅ تم التحقق بنجاح! يمكنك الآن الوصول إلى الروابط.</p>
 
-  </div>
+    <!-- ===== الفوتر ===== -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#"><i class="fas fa-cog"></i> الإعدادات</a>
+            <a href="#"><i class="fas fa-question-circle"></i> المساعدة</a>
+            <a href="#"><i class="fas fa-shield-alt"></i> الخصوصية</a>
+            <a href="#"><i class="fas fa-file-alt"></i> الشروط والأحكام</a>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 جميع الحقوق محفوظة</span>
+            <span>الإصدار 2.4.1</span>
+        </div>
+    </footer>
 
-  <!-- ربط ملف JavaScript -->
-  <script src="script.js"></script>
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
