@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>VeriShield - Verification</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- ربط ملف CSS الخارجي -->
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body class="bg-[#f9f9f9] flex items-center justify-center min-h-screen font-sans selection:bg-blue-100">
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+
+    <div class="py-8 md:py-10 lg:py-12 flex flex-col items-center">
+
+      <!-- reCAPTCHA Widget Container -->
+      <div
+        id="captcha-widget"
+        role="region"
+        aria-label="Verification Widget"
+        class="recaptcha-box bg-white border border-[#d3d3d3] rounded-[3px] shadow-[0_0_4px_1px_rgba(0,0,0,0.08)] flex flex-col items-center justify-between p-2 select-none overflow-hidden transition-all duration-300"
+      >
+
+        <!-- الصف العلوي -->
+        <div class="flex items-center justify-between w-full">
+
+          <!-- Checkbox / Spinner / Success -->
+          <div class="flex items-center gap-3 pr-2 flex-1">
+
+            <div class="relative w-7 h-7 flex items-center justify-center">
+
+              <!-- Checkbox -->
+              <div
+                id="captcha-checkbox"
+                role="checkbox"
+                aria-checked="false"
+                tabindex="0"
+                aria-label="أنا لست برنامج روبوت"
+                class="w-6 h-6 border-2 border-[#c1c1c1] bg-white rounded-[2px] cursor-pointer transition-all duration-200 hover:border-[#b2b2b2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 active:scale-95"
+              ></div>
+
+              <!-- Spinner -->
+              <div id="captcha-spinner" class="hidden absolute inset-0 flex items-center justify-center">
+                <svg class="h-6 w-6 text-[#4a90e2]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              </div>
+
+              <!-- Success -->
+              <div id="captcha-success" class="hidden absolute inset-0 flex items-center justify-center">
+                <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                </svg>
+              </div>
+
+            </div>
+
+            <!-- Status Text -->
+            <div id="captcha-text" class="text-[14px] font-normal text-[#000000] leading-none pt-0.5 min-w-[140px] cursor-pointer select-none text-transition">
+              أنا لست برنامج روبوت
+            </div>
+
+          </div>
+
+          <!-- Branding -->
+          <div class="flex flex-col items-center justify-center pl-1 text-[#555] min-w-[70px]">
+            <div class="flex flex-col items-center gap-0.5">
+              <div class="w-8 h-8 flex items-center justify-center overflow-visible">
+                <img src="https://i.postimg.cc/cHY7x1GC/56FDA78E-59F9-4380-B01E-3C1F80389B06.png" alt="Logo" class="w-8 h-8 object-contain scale-[1.7]">
+              </div>
+              <span class="text-[10px] font-bold tracking-tight leading-none text-[#555]">reCAPTCHA</span>
+            </div>
+
+            <div class="flex gap-1.5 text-[8px] mt-1 opacity-80 font-medium">
+              <a href="#" rel="noopener noreferrer" class="hover:underline text-[#555]">الخصوصية</a>
+              <span class="text-[6px]">•</span>
+              <a href="#" rel="noopener noreferrer" class="hover:underline text-[#555]">البنود</a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- شريط التقدم -->
+        <div id="progress-bar" class="w-full h-0.5 bg-gray-200 rounded-full overflow-hidden mt-1 hidden">
+          <div id="progress-fill" class="h-full bg-blue-500 rounded-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+
+      </div>
+
+      <!-- Footer Message -->
+      <p id="final-message" role="status" class="mt-8 text-gray-500 text-sm font-medium opacity-0 transition-opacity duration-700 pointer-events-none">
+        شكراً لك، تم التحقق من هويتك بنجاح.
+      </p>
+
+      <!-- Social Buttons -->
+      <div id="social-buttons" class="mt-6 flex gap-4 opacity-0 transition-opacity duration-700 pointer-events-none">
+        <a href="https://wa.me/message/CWL7JWC2MB5KP1" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 bg-green-500 text-white px-6 py-3 rounded-full hover:bg-green-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
+          <i class="fab fa-whatsapp text-xl"></i>
+          <span class="font-medium">واتساب</span>
+        </a>
+        <a href="https://www.instagram.com/ureename1?igsi=M3ljcjA3Z2hxbmUz&utm_source=qr" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-full hover:from-purple-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
+          <i class="fab fa-instagram text-xl"></i>
+          <span class="font-medium">إنستغرام</span>
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ربط ملف JavaScript الخارجي -->
+  <script src="script.js"></script>
+
+</body>
+</html>
