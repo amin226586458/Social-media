@@ -1,481 +1,562 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>link</title>
-
-  <!-- ============================================ -->
-  <!-- أيقونة الموقع (Favicon) - تظهر بجانب الرابط -->
-  <!-- ============================================ -->
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.png">
-  <link rel="apple-touch-icon" href="/favicon.png">
-
-  <!-- ============================================ -->
-  <!-- صورة المعاينة (OG Image) - تظهر عند مشاركة الرابط -->
-  <!-- ============================================ -->
-  <meta property="og:title" content="VeriShield - التحقق من الهوية">
-  <meta property="og:description" content="تحقق من هويتك باستخدام الكاميرا للحصول على روابط التواصل الاجتماعي">
-  <meta property="og:image" content="https://i.postimg.cc/PrqXCYHS/Chicken-(1).png">
-  <meta property="og:image:width" content="512">
-  <meta property="og:image:height" content="512">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://site--social-media--cr8g69srg7cy.code.run/">
-
-  <!-- ============================================ -->
-  <!-- صورة المعاينة لتويتر -->
-  <!-- ============================================ -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="VeriShield - التحقق من الهوية">
-  <meta name="twitter:description" content="تحقق من هويتك باستخدام الكاميرا للحصول على روابط التواصل الاجتماعي">
-  <meta name="twitter:image" content="https://i.postimg.cc/PrqXCYHS/Chicken-(1).png">
-
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-  <style>
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0;
-      padding: 20px;
-      background-color: #f9f9f9;
-    }
-
-    .recaptcha-box {
-      width: 420px;
-      min-width: 420px;
-      height: auto;
-      min-height: 100px;
-      padding: 20px 24px;
-      transition: all 0.4s ease;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      background: white;
-      border: 1px solid #d3d3d3;
-      border-radius: 3px;
-      box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.08);
-    }
-
-    /* ===== الصف الرئيسي ===== */
-    .captcha-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      gap: 12px;
-    }
-
-    /* ===== القسم الأيسر (المربع + النص) ===== */
-    .captcha-left {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      flex: 1;
-      min-width: 0;
-      overflow: hidden;
-    }
-
-    /* ===== المربع ===== */
-    .checkbox-wrapper {
-      position: relative;
-      width: 44px;
-      height: 44px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #captcha-checkbox {
-      width: 36px;
-      height: 36px;
-      border: 2px solid #c1c1c1;
-      background: white;
-      border-radius: 3px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      flex-shrink: 0;
-    }
-
-    #captcha-checkbox:hover {
-      box-shadow: 0 0 4px rgba(74, 144, 226, 0.4);
-    }
-
-    #captcha-checkbox:focus-visible {
-      border-color: #4a90e2;
-      box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
-      outline: none;
-    }
-
-    /* ===== النص - أكبر ليلائم التصميم الجديد ===== */
-    #captcha-text {
-      font-size: 19px;
-      font-weight: 500;
-      color: #000000;
-      line-height: 1.4;
-      cursor: pointer;
-      user-select: none;
-      transition: all 0.3s ease;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      min-width: 120px;
-      flex: 1;
-    }
-
-    /* ===== القسم الأيمن (الشعار + البنود) ===== */
-    .captcha-right {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      min-width: 100px;
-      text-align: center;
-    }
-
-    /* ===== الشعار - أكبر ===== */
-    .captcha-right .logo {
-      width: 56px;
-      height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: visible;
-    }
-
-    .captcha-right .logo img {
-      width: 56px;
-      height: 56px;
-      object-fit: contain;
-      transform: scale(1.6);
-    }
-
-    .captcha-right .brand-name {
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      color: #555;
-      line-height: 1;
-      margin-top: 2px;
-    }
-
-    .captcha-right .links {
-      display: flex;
-      gap: 8px;
-      font-size: 10px;
-      margin-top: 4px;
-      opacity: 0.8;
-    }
-
-    .captcha-right .links a {
-      color: #555;
-      text-decoration: none;
-    }
-
-    .captcha-right .links a:hover {
-      text-decoration: underline;
-    }
-
-    .captcha-right .links .dot {
-      font-size: 7px;
-      color: #888;
-    }
-
-    /* ===== Spinner ===== */
-    #captcha-spinner {
-      display: none;
-      position: absolute;
-      inset: 0;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #captcha-spinner svg {
-      width: 36px;
-      height: 36px;
-      animation: spin 1s linear infinite;
-      color: #4a90e2;
-    }
-
-    /* ===== Success ===== */
-    #captcha-success {
-      display: none;
-      position: absolute;
-      inset: 0;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #captcha-success svg {
-      width: 36px;
-      height: 36px;
-      color: #00aa45;
-    }
-
-    /* ===== Animations ===== */
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    @keyframes successPop {
-      0% { transform: scale(0) rotate(-45deg); opacity: 0; }
-      50% { transform: scale(1.3) rotate(0deg); opacity: 1; }
-      100% { transform: scale(1) rotate(0deg); opacity: 1; }
-    }
-
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      10% { transform: translateX(-4px); }
-      20% { transform: translateX(4px); }
-      30% { transform: translateX(-4px); }
-      40% { transform: translateX(4px); }
-      50% { transform: translateX(-2px); }
-      60% { transform: translateX(2px); }
-      70% { transform: translateX(-1px); }
-      80% { transform: translateX(1px); }
-      90% { transform: translateX(-1px); }
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-
-    @keyframes glow {
-      0%, 100% { box-shadow: 0 0 5px rgba(74, 144, 226, 0.2); }
-      50% { box-shadow: 0 0 20px rgba(74, 144, 226, 0.6); }
-    }
-
-    /* ===== States ===== */
-    .state-loading #captcha-checkbox {
-      display: none !important;
-    }
-    .state-loading #captcha-spinner {
-      display: flex !important;
-    }
-
-    .state-success #captcha-spinner,
-    .state-success #captcha-checkbox {
-      display: none !important;
-    }
-    .state-success #captcha-success {
-      display: flex !important;
-    }
-    .state-success #captcha-success svg {
-      animation: successPop 0.5s ease-out;
-    }
-    .state-success .recaptcha-box {
-      background-color: #fafafa;
-      border-color: #e0e0e0;
-      animation: glow 1s ease-in-out 2;
-    }
-
-    /* ===== Error State ===== */
-    .state-error #captcha-checkbox {
-      border-color: #cccccc !important;
-      background-color: #f8f8f8 !important;
-    }
-    .state-error #captcha-text {
-      color: #888888 !important;
-      font-size: 17px !important;
-      font-weight: 400 !important;
-    }
-    .state-error .recaptcha-box {
-      min-height: 110px !important;
-      padding: 22px 24px !important;
-      border-color: #d8d8d8 !important;
-      background-color: #fbfbfb !important;
-    }
-
-    /* حماية القسم الأيمن */
-    .state-error .captcha-right {
-      flex-shrink: 0 !important;
-      min-width: 90px !important;
-    }
-
-    .state-error .captcha-left {
-      flex: 1 1 0% !important;
-      min-width: 0 !important;
-      max-width: 70% !important;
-    }
-
-    /* ===== Social Buttons ===== */
-    #social-buttons {
-      transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
-      display: flex;
-      gap: 16px;
-      margin-top: 28px;
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    #social-buttons.show {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    #social-buttons a {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 24px;
-      border-radius: 50px;
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    #social-buttons a:hover {
-      transform: scale(1.05);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    }
-
-    .whatsapp-btn {
-      background: #25D366;
-      color: white;
-    }
-    .whatsapp-btn:hover {
-      background: #1da851;
-    }
-
-    .instagram-btn {
-      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-      color: white;
-    }
-    .instagram-btn:hover {
-      opacity: 0.9;
-    }
-
-    .text-transition {
-      transition: opacity 0.3s ease-in-out, color 0.5s ease;
-    }
-
-    #final-message {
-      margin-top: 32px;
-      color: #9ca3af;
-      font-size: 15px;
-      font-weight: 500;
-      opacity: 0;
-      transition: opacity 0.7s ease;
-      pointer-events: none;
-    }
-
-    #final-message.show {
-      opacity: 1;
-    }
-  </style>
-
-</head>
-
-<body>
-
-  <div class="flex flex-col items-center">
-
-    <!-- ========================================== -->
-    <!-- reCAPTCHA Widget -->
-    <!-- ========================================== -->
-    <div
-      id="captcha-widget"
-      role="region"
-      aria-label="Verification Widget"
-      class="recaptcha-box"
-    >
-
-      <!-- ===== الصف الرئيسي ===== -->
-      <div class="captcha-row">
-
-        <!-- ===== القسم الأيسر (المربع + النص) ===== -->
-        <div class="captcha-left">
-
-          <!-- المربع -->
-          <div class="checkbox-wrapper">
-            <div
-              id="captcha-checkbox"
-              role="checkbox"
-              aria-checked="false"
-              tabindex="0"
-              aria-label="أنا لست برنامج روبوت"
-            ></div>
-
-            <div id="captcha-spinner">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-            </div>
-
-            <div id="captcha-success">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-              </svg>
-            </div>
-          </div>
-
-          <!-- النص - حجم أكبر -->
-          <div id="captcha-text" class="text-transition">
-            أنا لست برنامج روبوت
-          </div>
-
-        </div>
-
-        <!-- ===== القسم الأيمن (الشعار + البنود) ===== -->
-        <div class="captcha-right">
-
-          <div class="logo">
-            <img src="https://i.postimg.cc/cHY7x1GC/56FDA78E-59F9-4380-B01E-3C1F80389B06.png" alt="Logo">
-          </div>
-
-          <span class="brand-name">reCAPTCHA</span>
-
-          <div class="links">
-            <a href="#">الخصوصية</a>
-            <span class="dot">•</span>
-            <a href="#">البنود</a>
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- ===== Footer Message ===== -->
-    <p id="final-message" role="status">
-      شكراً لك، تم التحقق من هويتك بنجاح.
-    </p>
-
-    <!-- ===== Social Buttons ===== -->
-    <div id="social-buttons">
-      <a href="https://wa.me/message/CWL7JWC2MB5KP1" target="_blank" rel="noopener noreferrer" class="whatsapp-btn">
-        <i class="fab fa-whatsapp text-xl"></i>
-        <span>واتساب</span>
-      </a>
-      <a href="https://www.instagram.com/ureename1?igsi=M3ljcjA3Z2hxbmUz&utm_source=qr" target="_blank" rel="noopener noreferrer" class="instagram-btn">
-        <i class="fab fa-instagram text-xl"></i>
-        <span>إنستغرام</span>
-      </a>
-    </div>
-
-  </div>
-
-  <script src="script.js"></script>
-
-</body>
-</html>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 16px;
+  background-color: #f9f9f9;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+}
+
+/* ========================================== */
+/* أزرار التواصل الاجتماعي */
+/* ========================================== */
+
+#social-buttons {
+  display: flex !important;
+  gap: 14px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  max-width: 370px;
+  transition: all 0.5s ease;
+}
+
+#social-buttons.hidden {
+  display: none !important;
+}
+
+#social-buttons a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  justify-content: center;
+  min-width: 100px;
+  max-width: 160px;
+  cursor: pointer;
+  border: none;
+  position: relative;
+}
+
+#social-buttons a:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== تأثير الاهتزاز ===== */
+@keyframes shakeIcon {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  15% { transform: translateX(-10px) rotate(-4deg); }
+  30% { transform: translateX(10px) rotate(4deg); }
+  45% { transform: translateX(-7px) rotate(-3deg); }
+  60% { transform: translateX(7px) rotate(3deg); }
+  75% { transform: translateX(-4px) rotate(-2deg); }
+  90% { transform: translateX(4px) rotate(2deg); }
+}
+
+@keyframes shakeCheckbox {
+  0%, 100% { transform: translateX(0); }
+  15% { transform: translateX(-6px); }
+  30% { transform: translateX(6px); }
+  45% { transform: translateX(-4px); }
+  60% { transform: translateX(4px); }
+  75% { transform: translateX(-2px); }
+  90% { transform: translateX(2px); }
+}
+
+@keyframes shakeText {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
+}
+
+#social-buttons a.shake {
+  animation: shakeIcon 0.6s ease-in-out;
+}
+
+#captcha-checkbox.shake {
+  animation: shakeCheckbox 0.5s ease-in-out;
+}
+
+#captcha-text.shake {
+  animation: shakeText 0.5s ease-in-out;
+}
+
+.whatsapp-btn {
+  background: #25D366;
+  color: white;
+}
+.whatsapp-btn:hover {
+  background: #1da851;
+}
+
+.instagram-btn {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  color: white;
+}
+.instagram-btn:hover {
+  opacity: 0.9;
+}
+
+.telegram-btn {
+  background: #0088cc;
+  color: white;
+}
+.telegram-btn:hover {
+  background: #006699;
+}
+
+/* ========================================== */
+/* رسالة التحميل */
+/* ========================================== */
+
+#loading-message {
+  display: none !important;
+  padding: 24px 0;
+  width: 100%;
+  text-align: center;
+}
+
+#loading-message.show {
+  display: block !important;
+}
+
+.loading-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: #4b5563;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.spinner {
+  width: 24px;
+  height: 24px;
+  color: #3b82f6;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ========================================== */
+/* واجهة التحقق */
+/* ========================================== */
+
+#captcha-widget {
+  display: none !important;
+  width: 100%;
+  max-width: 370px;
+  height: auto;
+  min-height: 88px;
+  padding: 16px 18px;
+  background: white;
+  border: 1px solid #d3d3d3;
+  border-radius: 3px;
+  box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s ease;
+}
+
+#captcha-widget.show {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.captcha-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;
+}
+
+.captcha-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.checkbox-wrapper {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#captcha-checkbox {
+  width: 32px;
+  height: 32px;
+  border: 2px solid #c1c1c1;
+  background: white;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+#captcha-checkbox:hover {
+  box-shadow: 0 0 4px rgba(74, 144, 226, 0.4);
+}
+
+#captcha-checkbox:focus-visible {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+  outline: none;
+}
+
+#captcha-text {
+  font-size: 16px;
+  font-weight: 500;
+  color: #000000;
+  line-height: 1.3;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 90px;
+  flex: 1;
+}
+
+.captcha-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-width: 80px;
+  text-align: center;
+}
+
+.captcha-right .logo {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.captcha-right .logo img {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  transform: scale(1.5);
+}
+
+.captcha-right .brand-name {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: #555;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.captcha-right .links {
+  display: flex;
+  gap: 6px;
+  font-size: 9px;
+  margin-top: 3px;
+  opacity: 0.8;
+}
+
+.captcha-right .links a {
+  color: #555;
+  text-decoration: none;
+}
+
+.captcha-right .links a:hover {
+  text-decoration: underline;
+}
+
+.captcha-right .links .dot {
+  font-size: 6px;
+  color: #888;
+}
+
+#captcha-spinner {
+  display: none;
+  position: absolute;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+#captcha-spinner svg {
+  width: 32px;
+  height: 32px;
+  animation: spin 1s linear infinite;
+  color: #4a90e2;
+}
+
+#captcha-success {
+  display: none;
+  position: absolute;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+#captcha-success svg {
+  width: 32px;
+  height: 32px;
+  color: #00aa45;
+}
+
+/* ========================================== */
+/* حالات الواجهة */
+/* ========================================== */
+
+.state-loading #captcha-checkbox {
+  display: none !important;
+}
+.state-loading #captcha-spinner {
+  display: flex !important;
+}
+
+.state-success #captcha-spinner,
+.state-success #captcha-checkbox {
+  display: none !important;
+}
+.state-success #captcha-success {
+  display: flex !important;
+}
+.state-success #captcha-success svg {
+  animation: successPop 0.5s ease-out;
+}
+.state-success #captcha-widget {
+  background-color: #fafafa;
+  border-color: #e0e0e0;
+  animation: glow 1s ease-in-out 2;
+}
+
+.state-error #captcha-checkbox {
+  border-color: #cccccc !important;
+  background-color: #f8f8f8 !important;
+}
+.state-error #captcha-text {
+  color: #888888 !important;
+  font-size: 15px !important;
+  font-weight: 400 !important;
+}
+.state-error #captcha-widget {
+  min-height: 98px !important;
+  padding: 18px 20px !important;
+  border-color: #d8d8d8 !important;
+  background-color: #fbfbfb !important;
+}
+
+.state-error .captcha-right {
+  flex-shrink: 0 !important;
+  min-width: 75px !important;
+}
+.state-error .captcha-left {
+  flex: 1 1 0% !important;
+  min-width: 0 !important;
+  max-width: 68% !important;
+}
+
+/* ========================================== */
+/* رسالة النهاية */
+/* ========================================== */
+
+.text-transition {
+  transition: opacity 0.3s ease-in-out, color 0.5s ease;
+}
+
+#final-message {
+  margin-top: 28px;
+  color: #9ca3af;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0;
+  transition: opacity 0.7s ease;
+  pointer-events: none;
+  text-align: center;
+}
+
+#final-message.show {
+  opacity: 1;
+}
+
+/* ========================================== */
+/* animations */
+/* ========================================== */
+
+@keyframes successPop {
+  0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+  50% { transform: scale(1.3) rotate(0deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 5px rgba(74, 144, 226, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(74, 144, 226, 0.6); }
+}
+
+/* ============================================ */
+/* تحسين للهواتف */
+/* ============================================ */
+
+@media (max-width: 420px) {
+  #captcha-widget {
+    max-width: 340px;
+    padding: 14px 16px;
+    min-height: 80px;
+  }
+  #captcha-text {
+    font-size: 15px;
+    min-width: 70px;
+  }
+  .captcha-right .logo {
+    width: 40px;
+    height: 40px;
+  }
+  .captcha-right .logo img {
+    width: 40px;
+    height: 40px;
+    transform: scale(1.4);
+  }
+  .captcha-right {
+    min-width: 70px;
+  }
+  .captcha-right .brand-name {
+    font-size: 10px;
+  }
+  .captcha-right .links {
+    font-size: 8px;
+  }
+  .checkbox-wrapper {
+    width: 34px;
+    height: 34px;
+  }
+  #captcha-checkbox {
+    width: 28px;
+    height: 28px;
+  }
+  #captcha-spinner svg {
+    width: 28px;
+    height: 28px;
+  }
+  #captcha-success svg {
+    width: 28px;
+    height: 28px;
+  }
+  .captcha-left {
+    gap: 10px;
+  }
+  .state-error #captcha-widget {
+    min-height: 90px !important;
+    padding: 16px 18px !important;
+  }
+  .state-error #captcha-text {
+    font-size: 14px !important;
+  }
+  .state-error .captcha-left {
+    max-width: 65% !important;
+  }
+  #social-buttons a {
+    padding: 8px 14px;
+    font-size: 13px;
+    min-width: 80px;
+    max-width: 130px;
+  }
+  #social-buttons {
+    gap: 10px;
+    max-width: 340px;
+  }
+}
+
+@media (max-width: 360px) {
+  #captcha-widget {
+    max-width: 300px;
+    padding: 12px 14px;
+  }
+  #captcha-text {
+    font-size: 14px;
+    min-width: 60px;
+  }
+  .captcha-right .logo {
+    width: 36px;
+    height: 36px;
+  }
+  .captcha-right .logo img {
+    width: 36px;
+    height: 36px;
+    transform: scale(1.3);
+  }
+  .captcha-right {
+    min-width: 60px;
+  }
+  .captcha-right .brand-name {
+    font-size: 9px;
+  }
+  .checkbox-wrapper {
+    width: 30px;
+    height: 30px;
+  }
+  #captcha-checkbox {
+    width: 24px;
+    height: 24px;
+  }
+  #captcha-spinner svg {
+    width: 24px;
+    height: 24px;
+  }
+  #captcha-success svg {
+    width: 24px;
+    height: 24px;
+  }
+  .captcha-left {
+    gap: 8px;
+  }
+  #social-buttons a {
+    padding: 6px 12px;
+    font-size: 12px;
+    min-width: 70px;
+    max-width: 110px;
+  }
+  #social-buttons {
+    gap: 8px;
+    max-width: 300px;
+  }
+}
